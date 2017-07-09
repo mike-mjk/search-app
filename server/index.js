@@ -1,22 +1,20 @@
 const path = require('path');
 const express = require('express');
 
+const Twitter = require('./twitter');
+
 const app = express();
 
-const Twit = require('twit');
-const T = new Twit({
-  consumer_key:         'KDz7dflwZU89XF1sukmt5tQeC',
-  consumer_secret:      'z9EbkvJCIHROrUuEv6OoKQ3Wzdw0r0fcawi6FGluCf4N7W9Iff',
-  access_token:         '883185279833579520-YSrIdXYNfJ66Gvjx240Q356c8AZbHjI',
-  access_token_secret:  'mSFZXdbRTioirZ8fMK975014Ix3fIePYB9uO6A5WaojHq',
-  timeout_ms:           60*1000,
-});
 // API endpoints go here!
 app.get('/api/searchtwitter', function(req, res) {
-  T.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 }, function(err, data, response) {
-    console.log(data);
-    res.json('Hi JSON')
+  Twitter.searchTweets(req, res, req.query.term)
+  .then(tweets => {
+    let string = Twitter.makeTweetUrlArray(tweets.statuses);
+    console.log(string);
+    // console.log('tweets', tweets.statuses.length);
   })
+  res.json('Hi JSON')
+
 })
 
 // Serve the built client

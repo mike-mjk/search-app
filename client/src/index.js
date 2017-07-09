@@ -12,9 +12,10 @@ const logger = createLogger({});
 const createStoreWithMiddleware = applyMiddleware(thunk, logger)(createStore);
 const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-import { searchTwitter } from './actions/';
-searchTwitter();
-console.log('Hi Mike');
+import { searchTwitter, oEmbedRequest } from './actions/';
+searchTwitter('trump');
+oEmbedRequest('https://publish.twitter.com/oembed?url=https://twitter.com/MarySadler19/status/884162950638043136')
+
 ReactDOM.render(
 	<Provider store={store}>
   	<App />
