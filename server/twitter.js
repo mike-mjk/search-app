@@ -7,7 +7,7 @@ const T = new Twit({
   timeout_ms:           60*1000,
 });
 
-
+//returns array of tweet objects from twitter REST API
 exports.searchTweets = function(req, res, term) {
 	return new Promise((resolve, reject) => {
 		T.get('search/tweets', { q: term, count: 10 }, function(err, data, response) {
@@ -16,10 +16,11 @@ exports.searchTweets = function(req, res, term) {
 		})
 	})
 }
-
+//returns array of oembed URLS. Takes result from searchTweets as argument.
 exports.makeTweetUrlArray = function(statuses) {
 	return statuses.map(status => {
-		return `https://publish.twitter.com/oembed?url=https://twitter.com/${status.user.screen_name}/status/${status.id_str}`
+		//dontForget added &omit_script=true if this breaks.
+		return `https://publish.twitter.com/oembed?url=https://twitter.com/${status.user.screen_name}/status/${status.id_str}&omit_script=true`
 	});
 }
 

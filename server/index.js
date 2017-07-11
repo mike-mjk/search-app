@@ -10,10 +10,10 @@ app.get('/api/searchtwitter', function(req, res) {
   Twitter.searchTweets(req, res, req.query.term)
   .then(tweets => {
     let string = Twitter.makeTweetUrlArray(tweets.statuses);
-    console.log(string);
+    // console.log(string);
     // console.log('tweets', tweets.statuses.length);
+    res.json(string)
   })
-  res.json('Hi JSON')
 
 })
 
