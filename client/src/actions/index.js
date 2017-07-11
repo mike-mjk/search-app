@@ -17,7 +17,7 @@ export function searchTwitter(term) {
 					console.log('tweetHtmlArray', tweetHtmlArray)
 					//dontForget if things don't update properly later change the key to something more unique
 					const tweetHtmlArrayWithKey = tweetHtmlArray.map((tweet, index) => {
-						let key = "key='" + index + "' ";
+						let key = "key='" + tweet + "' ";
 						return [tweet.slice(0, 12), key, tweet.slice(12)].join('');
 					})
 

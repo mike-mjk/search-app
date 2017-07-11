@@ -23,7 +23,7 @@ class TweetList extends Component {
 	}
 
 	componentDidMount() {
-		this.props.searchTwitter('trump');
+		// this.props.searchTwitter('trump');
 		// arrayOEmbedRequest([ 'https://publish.twitter.com/oembed?url=https://twitter.com/thugsRbadMK/status/884171918798147584&omit_script=true',
   // 'https://publish.twitter.com/oembed?url=https://twitter.com/TylerHu99890202/status/884171918617698305',
   // 'https://publish.twitter.com/oembed?url=https://twitter.com/marcylauren/status/884171918450069504',
