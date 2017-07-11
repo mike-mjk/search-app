@@ -26,14 +26,16 @@ function oEmbedRequest(url) {
 }
 
 export function arrayOEmbedRequest(urls) {
-	let oEmbedResponseArray = []
-	for (let i = 0; i < urls.length; i++) {
-		oEmbedRequest(urls[i])
+	return new Promise((resolve, reject) => {
+		let promises = [];
+		for (let i = 0; i < urls.length; i++) {
+			promises.push(oEmbedRequest(urls[i]))
+		}
+		Promise.all(promises)
 		.then(response => {
-			oEmbedResponseArray.push(response);	
+			resolve(response);
 		})
-	}
-	return oEmbedResponseArray;
+	});
 }
 
 
