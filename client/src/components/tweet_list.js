@@ -30,7 +30,7 @@ class TweetList extends Component {
 		else {
 			let htmltext = this.props.tweetHtml[0]
 
-			return <div key={Math.random()} >{this.props.tweetHtml}</div>;
+			return <div style={{float: 'left'}} key={Math.random()} >{this.props.tweetHtml}</div>;
 		}
 
 	}

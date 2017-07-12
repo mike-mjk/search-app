@@ -1,5 +1,6 @@
 import axios from 'axios';
 import jsonp from 'jsonp';
+import htmlToJson from 'html-to-json';
 
 var HtmlToReactParser = require('html-to-react').Parser
 
@@ -14,13 +15,31 @@ export function searchGoogleNews(term) {
 	return function(dispatch) {
 		axios.get('/api/searchGoogleNews', {params: {term: term}})
 		.then(response => {
-			console.log(response);
-			dispatch(
-				{	
-					type: SEARCH_GOOGLE_NEWS,
-					payload: response.data.items
-				}
-			)
+			// console.log(response);
+			console.log('response.data.items', response.data.items)
+			let promises = response.data.items.map(item => {
+				return (
+					htmlToJson.parse(item.description, {
+						'images': ['img', function ($img) {
+							return $img.attr('src');
+						}]
+					})
+				)
+			})
+			Promise.all(promises)
+			.then(imgArray => {
+				// console.log('result', result)
+				response.data.items.map((obj, index) => {
+					obj['img'] = imgArray[index].images[0]
+				})
+				console.log('response.data.items after img should be added', response.data.items);
+				dispatch(
+					{	
+						type: SEARCH_GOOGLE_NEWS,
+						payload: response.data.items
+					}
+				)
+			})
 		})
 	}
 }

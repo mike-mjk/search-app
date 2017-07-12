@@ -10,14 +10,21 @@ class GNews extends Component {
 
 	renderGoogleNewsLinks() {
 		return this.props.googleNewsObject.map(object => {
-			return <li><a href={object.url}>{object.title}</a></li>
+			console.log('object.img', object.img)
+			return (
+				<div style={{boxShadow: '0 2px 6px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.04)', backgroundColor: '#fff', padding: '15px', marginBottom: '15px', width: '50%'}}>
+					<li>
+						<a href={object.url}><img src={object.img}/>{object.title}</a>
+					</li>
+				</div>
+			)
 		})
 	}
 	render() {
 		if (!this.props.googleNewsObject) {
 			return <div></div>
 		} else {
-			return <ul>{this.renderGoogleNewsLinks()}</ul>
+			return <ul style={{listStyle: 'none'}}>{this.renderGoogleNewsLinks()}</ul>
 		}
 		// return <div>GNews</div>
 	}
