@@ -1,6 +1,8 @@
 import axios from 'axios';
 import jsonp from 'jsonp';
 
+var HtmlToReactParser = require('html-to-react').Parser
+
 export const SEARCH_TWITTER = 'search_twitter';
 
 //takes search term and dispatches action SEARCH_TWITTER
@@ -15,16 +17,20 @@ export function searchTwitter(term) {
 					// console.log('makeArrayOfTweetHtml', makeArrayOfTweetHtml(oEmbedResponse))
 					const tweetHtmlArray = makeArrayOfTweetHtml(oEmbedResponse);
 					console.log('tweetHtmlArray', tweetHtmlArray)
-					//dontForget if things don't update properly later change the key to something more unique
 					const tweetHtmlArrayWithKey = tweetHtmlArray.map((tweet, index) => {
-						let key = "key='" + tweet + "' ";
+						let key = "key='" + Math.random() + "' ";
 						return [tweet.slice(0, 12), key, tweet.slice(12)].join('');
+					})
+
+					const htmlToReactParser = new HtmlToReactParser();
+					let reactElement = tweetHtmlArrayWithKey.map(html => {
+						return htmlToReactParser.parse(html);
 					})
 
 					dispatch(
 						{ 
 							type: SEARCH_TWITTER,
-							payload: tweetHtmlArrayWithKey
+							payload: reactElement
 						}
 					)
 				})

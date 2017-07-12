@@ -4,15 +4,7 @@ import { twitterMagic } from './twitter_magic';
 import { searchTwitter } from '../actions'
 // import { ReactDOMServer } from 'react-dom/server';
 //don't forget if this doesn't work that this import statement is diff
-var HtmlToReactParser = require('html-to-react').Parser
-
-//----------------------------------------
-import { arrayOEmbedRequest } from '../actions/';
-
-
-
-
-//--------------------------------------------
+// var HtmlToReactParser = require('html-to-react').Parser
 
 class TweetList extends Component {
 	constructor(props) {
@@ -22,71 +14,23 @@ class TweetList extends Component {
 
 	}
 
-	componentDidMount() {
-		// this.props.searchTwitter('trump');
-		// arrayOEmbedRequest([ 'https://publish.twitter.com/oembed?url=https://twitter.com/thugsRbadMK/status/884171918798147584&omit_script=true',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/TylerHu99890202/status/884171918617698305',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/marcylauren/status/884171918450069504',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/AlbaneseJoe/status/884171918408069120',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/cyndi_obrion/status/884171918299058178',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/Anna_Tweeterowa/status/884171918299025409',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/crisp_aw/status/884171918210936834',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/SheilaPettifor2/status/884171918206791680',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/KateWalter12/status/884171918198419461',
-  // 'https://publish.twitter.com/oembed?url=https://twitter.com/preferscleanH2O/status/884171918131183616' ])
-		// .then(response => {
-		// 	this.setState({tweets: response})
-			// twitterMagic();
-		// 	console.log(typeof this.state.tweets[0].html);
-		// });
-	}
 	componentDidUpdate() {
 		twitterMagic();
+		if (window.twttr.widgets) {
+			window.twttr.widgets.load();
+		}
 	}
 
 
 	render() {
-		console.log('this.props.tweetHtml',this.props.tweetHtml);
-		// embedObj is what is returned from the Twitter API. it contains the html for a tweet to be rendered. It also has a script tag.
-		// let embedObj = {"url":"https:\/\/twitter.com\/thugsRbadMK\/status\/884171918798147584","author_name":"Eddie Muddy","author_url":"https:\/\/twitter.com\/thugsRbadMK","html":"\u003Cblockquote class=\"twitter-tweet\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EAustralian Journalist&#39;s Devastating Take On Trump At G-20 Goes Viral \u003Ca href=\"https:\/\/t.co\/CUn4WN73lh\"\u003Ehttps:\/\/t.co\/CUn4WN73lh\u003C\/a\u003E\u003C\/p\u003E&mdash; Eddie Muddy (@thugsRbadMK) \u003Ca href=\"https:\/\/twitter.com\/thugsRbadMK\/status\/884171918798147584\"\u003EJuly 9, 2017\u003C\/a\u003E\u003C\/blockquote\u003E\n\u003Cscript async src=\"\/\/platform.twitter.com\/widgets.js\" charset=\"utf-8\"\u003E\u003C\/script\u003E","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"}
-		//  simpleEmbedObj is the object without the script tag
-		// let simpleEmbedObj = {"url":"https:\/\/twitter.com\/thugsRbadMK\/status\/884171918798147584","author_name":"Eddie Muddy","author_url":"https:\/\/twitter.com\/thugsRbadMK","html":"\u003Cblockquote class=\"twitter-tweet\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EAustralian Journalist&#39;s Devastating Take On Trump At G-20 Goes Viral \u003Ca href=\"https:\/\/t.co\/CUn4WN73lh\"\u003Ehttps:\/\/t.co\/CUn4WN73lh\u003C\/a\u003E\u003C\/p\u003E&mdash; Eddie Muddy (@thugsRbadMK) \u003Ca href=\"https:\/\/twitter.com\/thugsRbadMK\/status\/884171918798147584\"\u003EJuly 9, 2017\u003C\/a\u003E\u003C\/blockquote\u003E\n","width":550,"height":null,"type":"rich","cache_age":"3153600000","provider_name":"Twitter","provider_url":"https:\/\/twitter.com","version":"1.0"}
-		// direct is copy pasted console log of simpleEmbedObj.html It says class instead of className, but I figure I can change that when needed.
-		// let direct = <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Australian Journalist&#39;s Devastating Take On Trump At G-20 Goes Viral <a href="https://t.co/CUn4WN73lh">https://t.co/CUn4WN73lh</a></p>&mdash; Eddie Muddy (@thugsRbadMK) <a href="https://twitter.com/thugsRbadMK/status/884171918798147584">July 9, 2017</a></blockquote>
-		// tweet is just like direct except it has className and the script tag. 
-		// let tweet = <div><blockquote className="twitter-tweet"><p lang="en" dir="ltr">Australian Journalist&#39;s Devastating Take On Trump At G-20 Goes Viral <a href="https://t.co/CUn4WN73lh">https://t.co/CUn4WN73lh</a></p>&mdash; Eddie Muddy (@thugsRbadMK) <a href="https://twitter.com/thugsRbadMK/status/884171918798147584">July 9, 2017</a></blockquote>
-// <script async src="//platform.twitter.com/widgets.js" charSet="utf-8"></script></div>
-		// let quotes = <div> HI </div>
-
-		// let funky = "\u003Cblockquote class=\"twitter-tweet\"\u003E\u003Cp lang=\"en\" dir=\"ltr\"\u003EAustralian Journalist&#39;s Devastating Take On Trump At G-20 Goes Viral \u003Ca href=\"https:\/\/t.co\/CUn4WN73lh\"\u003Ehttps:\/\/t.co\/CUn4WN73lh\u003C\/a\u003E\u003C\/p\u003E&mdash; Eddie Muddy (@thugsRbadMK) \u003Ca href=\"https:\/\/twitter.com\/thugsRbadMK\/status\/884171918798147584\"\u003EJuly 9, 2017\u003C\/a\u003E\u003C\/blockquote\u003E\n"
-		// console.log('this.state.tweets[0].html', this.state.tweets[0].html)
-		// console.log('embedObj.html', embedObj.html);
-		// console.log('simpleEmbedObj.html', simpleEmbedObj.html);
-
+		// console.log('this.props.tweetHtml',this.props.tweetHtml);
 		if (!this.props.tweetHtml[0]) {
-			return <div>Loading</div>
+			return <div></div>
 		}
 		else {
 			let htmltext = this.props.tweetHtml[0]
 
-			//important
-			const htmlToReactParser = new HtmlToReactParser();
-			const reactElement = htmlToReactParser.parse(htmltext);
-			console.log('reactElement', reactElement);
-
-			let reactElement2 = this.props.tweetHtml.map(html => {
-				return htmlToReactParser.parse(html);
-			})
-			console.log('reactElement2',reactElement2)
-
-			// console.log('htmltext', htmltext);
-			// console.log('htmltext.charAt', htmltext.length);
-			// console.log(typeof tweet);
-			// console.log(Object.keys(tweet))
-			// console.log(tweet.props)
-			// console.log('TYPEOF', typeof htmltext);
-			// console.log('reactElement', reactElement);
-			return <div>{reactElement2}</div>;
+			return <div key={Math.random()} >{this.props.tweetHtml}</div>;
 		}
 
 	}
