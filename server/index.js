@@ -1,11 +1,19 @@
 const path = require('path');
 const express = require('express');
 
+const GoogleNews = require('./google_news');
 const Twitter = require('./twitter');
 
 const app = express();
 
 // API endpoints go here!
+app.get('/api/searchGoogleNews', function(req, res) {
+  GoogleNews.searchGoogleNews(req, res, req.query.term)
+  // res.send('response');
+
+})
+
+
 app.get('/api/searchtwitter', function(req, res) {
   Twitter.searchTweets(req, res, req.query.term)
   .then(tweets => {

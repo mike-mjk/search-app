@@ -4,7 +4,32 @@ import jsonp from 'jsonp';
 var HtmlToReactParser = require('html-to-react').Parser
 
 export const SEARCH_TWITTER = 'search_twitter';
+export const SEARCH_GOOGLE_NEWS = 'search_google_news';
 
+//--------------------------------------------------
+//----------------Google News-----------------------
+//--------------------------------------------------
+
+export function searchGoogleNews(term) {
+	return function(dispatch) {
+		axios.get('/api/searchGoogleNews', {params: {term: term}})
+		.then(response => {
+			console.log(response);
+			dispatch(
+				{	
+					type: SEARCH_GOOGLE_NEWS,
+					payload: response.data.items
+				}
+			)
+		})
+	}
+}
+
+
+
+//--------------------------------------------------
+//----------------Twitter---------------------------
+//--------------------------------------------------
 //takes search term and dispatches action SEARCH_TWITTER
 export function searchTwitter(term) {
 	  return function(dispatch) {
@@ -16,7 +41,6 @@ export function searchTwitter(term) {
 					// console.log('oEmbedResponse', oEmbedResponse);
 					// console.log('makeArrayOfTweetHtml', makeArrayOfTweetHtml(oEmbedResponse))
 					const tweetHtmlArray = makeArrayOfTweetHtml(oEmbedResponse);
-					console.log('tweetHtmlArray', tweetHtmlArray)
 					const tweetHtmlArrayWithKey = tweetHtmlArray.map((tweet, index) => {
 						let key = "key='" + Math.random() + "' ";
 						return [tweet.slice(0, 12), key, tweet.slice(12)].join('');
@@ -73,15 +97,3 @@ function makeArrayOfTweetHtml(oEmbedArray) {
 		return stripped;
 	});
 }
-
-
-// before trying to implement promise
-// function oEmbedRequest(url) {
-// 	jsonp(url, null, function(err, data) {
-// 		if (err) {
-// 			console.error(err.message);
-// 		} else {
-// 			return data;
-// 		}
-// 	});
-// }
