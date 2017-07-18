@@ -32,13 +32,29 @@ export function searchGoogleNews(term) {
 				response.data.items.map((obj, index) => {
 					obj['img'] = imgArray[index].images[0]
 				})
-				console.log('response.data.items after img should be added', response.data.items);
-				dispatch(
-					{	
-						type: SEARCH_GOOGLE_NEWS,
-						payload: response.data.items
-					}
-				)
+				
+				let promises = response.data.items.map(item => {
+					return (
+						htmlToJson.parse(item.description, {
+							'outlet': ['font', function ($font) {
+								return $font.text();
+							}]
+						})
+					)
+				})
+				Promise.all(promises)
+				.then(outletArray => {
+					response.data.items.map((obj, index) => {
+						obj['outlet'] = outletArray[index].outlet[0]
+					})
+					dispatch(
+						{	
+							type: SEARCH_GOOGLE_NEWS,
+							payload: response.data.items
+						}
+					)
+				})
+				
 			})
 		})
 	}

@@ -8,7 +8,6 @@ exports.searchGoogleNews = function(req, res, term) {
   // .then(response => {
 	const termWithPlusForSpace = term.replace(' ', '+');
 	Feed.load('https://news.google.com/news?q='+ termWithPlusForSpace + '&output=rss', function(err, rss) {
-		console.log(rss)
 		res.json(rss)
 	})
 }
