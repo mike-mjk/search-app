@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchTwitter } from '../actions';
-import { searchGoogleNews } from '../actions';
+import { searchTwitter, searchGoogleNews, searchYouTube } from '../actions';
+// import { searchGoogleNews } from '../actions';
 
 class SearchBar extends Component {
 	constructor(props) {
@@ -16,9 +16,12 @@ class SearchBar extends Component {
 
 	onFormSubmit(event) {
 		event.preventDefault();
-		if (this.state.term !== '') {
-			this.props.searchTwitter(this.state.term);
-			this.props.searchGoogleNews(this.state.term);
+		let { term } = this.state
+		if (term !== '') {
+			console.log('this', this);
+			this.props.searchTwitter(term);
+			this.props.searchGoogleNews(term);
+			this.props.searchYouTube(term);
 		}
 	}
 
@@ -40,4 +43,4 @@ class SearchBar extends Component {
 	}
 }
 
-export default connect(null, { searchTwitter, searchGoogleNews })(SearchBar);
+export default connect(null, { searchTwitter, searchGoogleNews, searchYouTube })(SearchBar);

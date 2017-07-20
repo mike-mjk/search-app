@@ -1,11 +1,70 @@
 import axios from 'axios';
 import jsonp from 'jsonp';
 import htmlToJson from 'html-to-json';
+import _ from 'lodash';
 
 var HtmlToReactParser = require('html-to-react').Parser
 
 export const SEARCH_TWITTER = 'search_twitter';
 export const SEARCH_GOOGLE_NEWS = 'search_google_news';
+export const SEARCH_YOUTUBE = 'search_youtube';
+
+
+//--------------------------------------------------
+//-------------------YouTube------------------------
+//--------------------------------------------------
+function extractFromResponse(response) {
+	var videos = response.data.items.map(result => {
+		return ({
+			title: result.snippet.title,
+      channelTitle: result.snippet.channelTitle,
+     	id: result.id.videoId,
+    	thumbnail: result.snippet.thumbnails.medium.url,
+    	description: result.snippet.description,
+    	tags: result.snippet.tags,
+    	publishedAt: result.snippet.publishedAt
+		})
+	})
+	return videos;
+}
+
+function twoWeeksAgo() {
+	let date = new Date();
+	date.setDate(date.getDate() - 14)
+	date = new Date(date).toISOString();
+	return date;
+}
+
+export function searchYouTube(term) {
+	return function(dispatch) {
+		let date = twoWeeksAgo();
+		let params = {
+			params: {
+				q: term,
+				part: 'snippet',
+				maxResults: 25,
+				type: 'video',
+				key: 'AIzaSyBzX4NtsC8SUIeMWPeM2WnEL5rmUVcIWgc',
+				publishedAfter: date
+			}
+		}
+		axios.get('https://www.googleapis.com/youtube/v3/search', params)
+		.then(response => {
+			console.log('response', response);
+			let videos = extractFromResponse(response);
+			videos = _.mapKeys(videos, 'id')
+
+			dispatch(
+				{ 
+					type: SEARCH_YOUTUBE,
+					payload: videos
+				}
+			)
+
+		})
+	}
+}
+
 
 //--------------------------------------------------
 //----------------Google News-----------------------
